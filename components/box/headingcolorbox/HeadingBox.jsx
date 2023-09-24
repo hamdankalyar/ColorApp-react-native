@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import styles from './HeadingBox.style';
 
 import { View, Text, TouchableOpacity } from 'react-native';
-import ThemeContext from '../../../Hook/UseContextHook'; // Import the ThemeContext
+import ThemeColorContext from '../../../Hook/ColorPaletteContext'; // Import the ThemeContext
 
 export default function Box({ colorName, colorCode, toggleTheme }) {
-  const { theme, setTheme, setOverrideTheme } = useContext(ThemeContext); // Get the theme value
+  const { bcColor, setBCColor, setOverrideTheme } =
+    useContext(ThemeColorContext); // Get the bcColor value
   const handlePress = () => {
-    setTheme(colorCode);
+    setBCColor(colorCode);
     setOverrideTheme(null); // Reset the override
   };
 

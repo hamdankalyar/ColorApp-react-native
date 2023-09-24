@@ -1,23 +1,20 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Switch,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Switch } from 'react-native';
 import { useContext, useState } from 'react';
 import Box from '../components/box/headingcolorbox/HeadingBox';
-import ThemeContext from '../Hook/UseContextHook';
+import ThemeColorContext from '../Hook/ColorPaletteContext';
 import React from 'react';
+import ThemeContext from '../Hook/ThemeContext';
 
 export default function ColorPalette({ route }) {
+  const { theme } = useContext(ThemeContext);
   const { COLORS, paletteName } = route.params;
-  const [theme, setTheme] = useState('white'); // Initialize as false for light mode
+  const [bcColor, setBCColor] = useState('white'); // Initialize as false for light mode
   const [overrideTheme, setOverrideTheme] = useState(null); // Controlled by Switch
-  const backgroundcolor = overrideTheme !== null ? overrideTheme : theme;
+  const backgroundcolor = overrideTheme !== null ? overrideTheme : bcColor;
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, setOverrideTheme }}>
+    <ThemeColorContext.Provider
+      value={{ bcColor, setBCColor, setOverrideTheme }}
+    >
       <View style={[styles.container, { backgroundColor: backgroundcolor }]}>
         <FlatList
           style={{ padding: 20, flex: 1 }}
@@ -37,7 +34,7 @@ export default function ColorPalette({ route }) {
           }}
         />
       </View>
-    </ThemeContext.Provider>
+    </ThemeColorContext.Provider>
   );
 }
 const styles = StyleSheet.create({

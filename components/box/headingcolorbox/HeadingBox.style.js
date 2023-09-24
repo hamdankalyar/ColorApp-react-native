@@ -7,5 +7,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
+  dark: {
+    backgroundColor: 'black',
+  },
+  white: {
+    backgroundColor: 'white',
+  },
 });
 export default styles;

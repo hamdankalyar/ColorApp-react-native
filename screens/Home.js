@@ -1,7 +1,8 @@
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
 import ColorBox from '../components/box/colorbox/ColorBox';
-import FlatPrev from '../components/FlatPrev';
+import FlatPrev from '../components/preview/FlatPrev';
+import ThemeContext from '../Hook/ThemeContext';
 
 export default function Home({ navigation }) {
   const [color, setColor] = useState([]);
