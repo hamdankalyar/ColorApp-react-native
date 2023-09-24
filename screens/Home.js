@@ -39,7 +39,11 @@ const handleRefresh = useCallback(async () => {
         )}
         refreshing={isRefreshing} 
         onRefresh={handleRefresh}
-
+        ListHeaderComponent={
+          <TouchableOpacity onPress={()=>{navigation.navigate('ColorPaletteModal')}}>
+            <Text>Launch the modal </Text>
+          </TouchableOpacity>
+        }
         
       />
 
