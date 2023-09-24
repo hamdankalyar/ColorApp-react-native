@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList,RefreshControl } from 'react-native';
 import React, { useCallback, useEffect, useState, useContext } from 'react';
 import ColorBox from '../components/box/colorbox/ColorBox';
 import FlatPrev from '../components/preview/FlatPrev';
@@ -6,6 +6,7 @@ import ThemeContext from '../Hook/ThemeContext';
 
 export default function Home({ navigation }) {
   const [color, setColor] = useState([]);
+  const [isRefreshing,setIsRefreshing] = useState(false);
   const handleFetchPalettes = useCallback(async () => {
     const response = await fetch(
       'https://color-palette-api.kadikraman.vercel.app/palettes',
@@ -18,16 +19,30 @@ export default function Home({ navigation }) {
   useEffect(() => {
     handleFetchPalettes();
   }, []);
-
-  useEffect(() => {
-    handleFetchPalettes();
-  }, []);
+const handleRefresh = useCallback(async () => {
+  setIsRefreshing(true)
+ 
+  await handleFetchPalettes()
+  setTimeout(() => {
+    setIsRefreshing(false)
+  }, 1000);
+},[])
 
   return (
     <View style={{ flex: 1 }}>
-      {color.map((elm, index) => (
-        <FlatPrev key={index} colorArr={elm} navigation={navigation} />
-      ))}
+      <FlatList
+       
+        data={color}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <FlatPrev colorArr={item} navigation={navigation} />
+        )}
+        refreshing={isRefreshing} 
+        onRefresh={handleRefresh}
+
+        
+      />
+
     </View>
   );
 }

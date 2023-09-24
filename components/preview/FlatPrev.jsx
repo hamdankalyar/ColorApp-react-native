@@ -3,9 +3,11 @@ import React, { useContext } from 'react';
 import ColorBox from '../box/colorbox/ColorBox.jsx';
 import ThemeContext from '../../Hook/ThemeContext.js';
 import styles from './FlatPrev.style.js';
+
 const FlatPrev = ({ colorArr, navigation }) => {
+
   const { theme } = useContext(ThemeContext);
-  console.log('Current theme in FlatPrev: ', theme);
+ 
   return (
     <View style={{ flex: 1, backgroundColor: theme }}>
       <TouchableOpacity
