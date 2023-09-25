@@ -161,18 +161,33 @@ const COLORS = [
   { colorName: 'YellowGreen', hexCode: '#9ACD' },
 ];
 const ColorPaletteModal = ({ navigation }) => {
+  const [selectedColors, setSelectedColors] = useState([]);
   const [paletteName, setPaletteName] = useState('');
   const handlePress = useCallback(() => {
     if (!paletteName) {
       Alert.alert('Please Enter a Palette name');
+    } else if (selectedColors.length < 3) {
+      Alert.alert('Please Select Atleast 3 colors ');
     } else {
       const newColorPalette = {
         paletteName: paletteName,
-        colors: [],
+        colors: selectedColors,
       };
       navigation.navigate('Home', { newColorPalette });
     }
-  }, [paletteName]);
+  }, [paletteName, selectedColors]);
+
+  const handleValueChange = useCallback((value, color) => {
+    if (value === true) {
+      setSelectedColors((colors) => [...colors, color]);
+    } else {
+      setSelectedColors((colors) =>
+        colors.filter(
+          (selectedColor) => color.colorName !== selectedColor.colorName,
+        ),
+      );
+    }
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <Text>Name of your Color palette</Text>
@@ -188,7 +203,16 @@ const ColorPaletteModal = ({ navigation }) => {
         renderItem={({ item }) => (
           <View style={styles.switchContainer}>
             <Text>{item.colorName}</Text>
-            <Switch value={true} onValueChange={() => {}} />
+            <Switch
+              value={
+                !!selectedColors.find(
+                  (color) => color.colorName === item.colorName,
+                )
+              }
+              onValueChange={(selected) => {
+                handleValueChange(selected, item);
+              }}
+            />
           </View>
         )}
       />
